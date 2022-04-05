@@ -1,0 +1,33 @@
+version: 2.1
+
+jobs:
+  foo:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run: echo "foo"
+  bar:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run: echo "BAR"
+  bizz:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run: echo "B1zZ"
+
+workflows:
+  all:
+    jobs:
+      - foo:
+          filters:
+            tags:
+              only: /^test@/
+      - bar:
+          filters:
+            tags:
+              only: /^test@/
+            branches:
+               ignore: /.*/
+      - bizz
