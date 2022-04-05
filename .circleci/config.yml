@@ -24,10 +24,17 @@ workflows:
           filters:
             tags:
               only: /^test/
+             branches:
+               ignore: /.*/
       - bar:
           filters:
             tags:
               only: /^test/
             branches:
                ignore: /.*/
-      - bizz
+      - bizz:
+          filters:
+            tags:
+              only: /^test/
+            branches:
+               ignore: /.*/
