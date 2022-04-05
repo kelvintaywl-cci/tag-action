@@ -23,11 +23,11 @@ workflows:
       - foo:
           filters:
             tags:
-              only: /^test@/
+              only: /^test/
       - bar:
           filters:
             tags:
-              only: /^test@/
+              only: /^test/
             branches:
                ignore: /.*/
       - bizz
