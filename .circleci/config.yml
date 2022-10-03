@@ -26,7 +26,9 @@ workflows:
       not: << pipeline.git.tag >> 
     jobs:
       - build:
-          branch: << pipeline.git.branch >>
+          # Solution 2: mustache conditionals;
+          # ensure default '' (empty string) if <<pipeline.git.branch>> is not found
+          branch: <<#pipeline.git.branch>><<pipeline.git.branch>><</pipeline.git.branch>>
   on-tag:
     when: << pipeline.git.tag >> 
     jobs:
