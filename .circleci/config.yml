@@ -8,6 +8,8 @@ jobs:
     parameters:
       branch:
         type: string
+        # Solution 1: set a default
+        default: ''
     steps:
       - run: |
           echo "args, branch: << parameters.branch >>"
