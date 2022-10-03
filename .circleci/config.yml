@@ -22,8 +22,6 @@ jobs:
 
 workflows:
   main:
-    when:
-      not: << pipeline.git.tag >> 
     jobs:
       - build:
           branch: <<pipeline.git.branch>>
