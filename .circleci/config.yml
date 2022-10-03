@@ -1,40 +1,21 @@
 version: 2.1
 
 jobs:
-  foo:
+  on-tag:
     docker:
-      - image: cimg/base:stable
+      - image: cimg/python:3.9.0
+    resource_class: small
+    parameters:
+      branch:
+        type: string
     steps:
-      - run: echo "foo"
-  bar:
-    docker:
-      - image: cimg/base:stable
-    steps:
-      - run: echo "BAR"
-  bizz:
-    docker:
-      - image: cimg/base:stable
-    steps:
-      - run: echo "B1zZ"
+      - run: |
+          echo "args, branch: << parameters.branch >>"
 
 workflows:
-  all:
+  main:
+    when:
+      not: << pipeline.git.tag >> 
     jobs:
-      - foo:
-          filters:
-            tags:
-              only: /^test@.*/
-            branches:
-              ignore: /.*/
-      - bar:
-          filters:
-            tags:
-              only: /^test@.*/
-            branches:
-              ignore: /.*/
-      - bizz:
-          filters:
-            tags:
-              only: /^test@.*/
-            branches:
-              ignore: /.*/
+      - build:
+          branch: << pipeline.git.branch >>
