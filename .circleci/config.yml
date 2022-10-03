@@ -25,10 +25,3 @@ workflows:
     jobs:
       - build:
           branch: <<pipeline.git.branch>>
-  on-tag:
-    when: << pipeline.git.tag >> 
-    jobs:
-      - on-tag:
-          filters:
-            tags:
-              only: /.*/
