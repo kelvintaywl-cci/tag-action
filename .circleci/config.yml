@@ -24,7 +24,7 @@ workflows:
   main:
     jobs:
       - on-tag:
-          branch: <<pipeline.git.tag>>
+          tag: <<pipeline.git.tag>>
           filters:
             tags:
               only: /.*/
