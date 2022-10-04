@@ -1,27 +1,30 @@
 version: 2.1
 
 jobs:
-  build:
-    docker:
-      - image: cimg/python:3.9.0
-    resource_class: small
-    parameters:
-      branch:
-        type: string
-    steps:
-      - run: |
-          echo "args, branch: << parameters.branch >>"
   on-tag:
     docker:
       - image: cimg/python:3.9.0
     resource_class: small
+    parameters:
+      tag:
+        type: string
     steps:
       - run: |
-          echo "Tagged: ${CIRCLE_TAG}"
+          echo "args, branch: << parameters.tag >>"
+  build:
+    docker:
+      - image: cimg/python:3.9.0
+    resource_class: small
+    steps:
+      - run: |
+          echo "commit: ${CIRCLE_SHA1}"
 
 
 workflows:
   main:
     jobs:
-      - build:
-          branch: <<pipeline.git.branch>>
+      - on-tag:
+          branch: <<pipeline.git.tag>>
+          filters:
+            tags:
+              only: /.*/
