@@ -18,6 +18,10 @@ jobs:
     steps:
       - run: |
           echo "Tagged: ${CIRCLE_TAG}"
+      - run: |
+          git rev-list -n 1 $CIRCLE_TAG
+          
+          git branch -a --contains $CIRCLE_SHA1
 
 
 workflows:
