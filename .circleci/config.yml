@@ -17,12 +17,11 @@ jobs:
     resource_class: small
     steps:
       - checkout
-      - run: |
-          echo "Tagged: ${CIRCLE_TAG}"
-      - run: |
-          git rev-list -n 1 $CIRCLE_TAG
-          
-          git branch -a --contains $CIRCLE_SHA1
+      - run: echo "Tagged: ${CIRCLE_TAG}"
+      # look up commit from tag (optional)
+      - run: git rev-list -n 1 $CIRCLE_TAG
+      # look up all branches containing this commit SHA
+      - run: git --no-pager branch -a --contains $CIRCLE_SHA1
 
 
 workflows:
