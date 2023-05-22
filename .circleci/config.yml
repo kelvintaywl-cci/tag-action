@@ -26,6 +26,10 @@ jobs:
 
 workflows:
   main:
-    when: << pipeline.git.tag >>
     jobs:
-      - on-tag
+      - on-tag:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /.*/
