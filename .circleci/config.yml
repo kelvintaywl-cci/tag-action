@@ -16,6 +16,7 @@ jobs:
       - image: cimg/python:3.9.0
     resource_class: small
     steps:
+      - checkout
       - run: |
           echo "Tagged: ${CIRCLE_TAG}"
       - run: |
