@@ -25,7 +25,7 @@ jobs:
 
 
 workflows:
-  when: << pipeline.git.tag >>
   main:
+    when: << pipeline.git.tag >>
     jobs:
       - on-tag
