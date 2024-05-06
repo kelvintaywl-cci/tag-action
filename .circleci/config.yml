@@ -4,12 +4,12 @@ commands:
   details:
     steps:
       - run: 
-        name: show details
-        command: |
-          echo "Hello from ${CIRCLE_JOB}"
-          echo "Found: Git tag ${CIRCLE_TAG}"
-          echo "Found: Git branch ${CIRCLE_BRANCH}"
-          echo "Git commit ${CIRCLE_SHA1}"
+          name: show details
+          command: |
+            echo "Hello from ${CIRCLE_JOB}"
+            echo "Found: Git tag ${CIRCLE_TAG}"
+            echo "Found: Git branch ${CIRCLE_BRANCH}"
+            echo "Git commit ${CIRCLE_SHA1}"
 
 executors:
   basic:
