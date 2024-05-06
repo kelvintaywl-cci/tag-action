@@ -1,36 +1,65 @@
 version: 2.1
 
-jobs:
-  build:
-    docker:
-      - image: cimg/python:3.9.0
-    resource_class: small
-    parameters:
-      branch:
-        type: string
+commands:
+  details:
     steps:
-      - run: |
-          echo "args, branch: << parameters.branch >>"
-  on-tag:
-    docker:
-      - image: cimg/python:3.9.0
-    resource_class: small
-    steps:
-      - checkout
-      - run:
-          name: "[optional] look up commit SHA from git tag"
-          command: git rev-list -n 1 $CIRCLE_TAG
-      - run:
-          name: look up branches from commit SHA
-          command: git --no-pager branch -a --contains $CIRCLE_SHA1
+      - run: 
+        name: show details
+        command: |
+          echo "Hello from ${CIRCLE_JOB}"
+          echo "Found: Git tag ${CIRCLE_TAG}"
+          echo "Found: Git branch ${CIRCLE_BRANCH}"
+          echo "Git commit ${CIRCLE_SHA1}"
 
+executors:
+  basic:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+
+jobs:
+  aaa:
+    executor: basic
+    steps:
+      - details
+  bbb:
+    executor: basic
+    steps:
+      - details
+  last:
+    executor: basic
+    steps:
+      - run: echo "DONE"
 
 workflows:
-  main:
+  tag-only:
     jobs:
-      - on-tag:
+      - aaa:
           filters:
+            tags:
+              only: /^v.*/
             branches:
               ignore: /.*/
+      - last:
+          requires:
+            - aaa
+          filters:
             tags:
-              only: /.*/
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+  tag-mixed:
+    jobs:
+      - aaa:
+          filters:
+            tags:
+              only: /^v.*/
+      - last:
+          requires:
+            - aaa
+  always:
+    jobs:
+      - aaa
+      - last:
+          requires:
+            - aaa
