@@ -54,9 +54,15 @@ workflows:
           filters:
             tags:
               only: /^v.*/
-      - last:
+      - bbb:
           requires:
             - aaa
+      - last:
+          requires:
+            - bbb
+          filters:
+            tags:
+              only: /^v.*/
   always:
     jobs:
       - aaa
