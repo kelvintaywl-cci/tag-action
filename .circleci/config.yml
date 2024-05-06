@@ -60,6 +60,7 @@ workflows:
       - last:
           requires:
             - bbb
+            - aaa
           filters:
             tags:
               only: /^v.*/
