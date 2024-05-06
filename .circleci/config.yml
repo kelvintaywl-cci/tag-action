@@ -64,6 +64,9 @@ workflows:
           filters:
             tags:
               only: /^v.*/
+            branches:
+              # NOTE: we are on tag-mixed branch here
+              only: main
   always:
     jobs:
       - aaa
