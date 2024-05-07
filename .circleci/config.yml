@@ -57,6 +57,9 @@ workflows:
       - bbb:
           requires:
             - aaa
+          filters:
+            tags:
+              only: /^v.*/
       - last:
           requires:
             - bbb
