@@ -1,5 +1,17 @@
 version: 2.1
 
+commands:
+  extract-tag-semver:
+    steps:
+      - run: which python
+      - run:
+          name: Retrieve semver version from git tag
+          command: |
+            echo "git tag: ${CIRCLE_TAG}"
+            echo `export SEMVER_VERSION=$(python -c 'import os; import re; tag = os.environ.get("CIRCLE_TAG"); pattern = re.compile("^(.+-)?(?P<version>\d+\.\d+\.\d)(-.+)?$"); r = pattern.match(tag); print(r.group("version"))')` >> $BASH_ENV
+            source $BASH_ENV
+            echo "Semver version: ${SEMVER_VERSION}"
+
 jobs:
   build:
     docker:
@@ -16,13 +28,13 @@ jobs:
       - image: cimg/python:3.9.0
     resource_class: small
     steps:
-      - checkout
       - run:
           name: "[optional] look up commit SHA from git tag"
           command: git rev-list -n 1 $CIRCLE_TAG
       - run:
           name: look up branches from commit SHA
           command: git --no-pager branch -a --contains $CIRCLE_SHA1
+      - extract-tag-semver
 
 
 workflows:
