@@ -8,10 +8,11 @@ commands:
           name: Retrieve semver version from git tag
           command: |
             echo "git tag: ${CIRCLE_TAG}"
-            echo `export SEMVER_VERSION=$(python -c 'import os; import re; tag = os.environ.get("CIRCLE_TAG"); pattern = re.compile("^(.+-)?(?P<version>\d+\.\d+\.\d)(-.+)?$"); r = pattern.match(tag); print(r.group("version"))')` >> $BASH_ENV
-            source $BASH_ENV
+            export SEMVER_VERSION=$(python -c 'import os; import re; tag = os.environ.get("CIRCLE_TAG"); pattern = re.compile("^(.+-)?(?P<version>\d+\.\d+\.\d)(-.+)?$"); r = pattern.match(tag); print(r.group("version"))')
             echo "Semver version: ${SEMVER_VERSION}"
-
+            # save to $BASH_ENV
+            echo "export SEM_VERSION=$SEMVER_VERSION" >> $BASH_ENV
+      - run: printenv SEM_VERSION
 jobs:
   build:
     docker:
